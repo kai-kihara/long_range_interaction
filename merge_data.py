@@ -6,7 +6,7 @@ from func import *
 from simulator import *
 from main import *
 
-class SimulationData:
+class SimulationData: #複数回シミュレーションしたときに統合する用
     def __init__(self, params:dict):
         self.params = params
         self.simulators = []
@@ -59,6 +59,7 @@ class Results:
         return values
 
     def save(self, name):
+        create_directory(path="data")
         save_pickle(object=self, directory_path='data', file_name=name)
 
     def run(self, name=''):
@@ -68,5 +69,5 @@ class Results:
             
 if __name__ == '__main__':
     #results_prev:Results = load_pickle(file_name='test.pkl', directory_path='data')
-    results = Results(directory='test', t_discard=10)
+    results = Results(directory='normal', t_discard=100)
     results.run()

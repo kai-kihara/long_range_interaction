@@ -15,9 +15,9 @@ class DrawFig:
         self.results:Results = load_pickle(file_name=file+'.pkl', directory_path='data')
         self.directory = file
         self.params_def = self.results.data[0].params
-        self.cmap = {'rho':'jet', 'beta':'Reds'}
-        self.xlabel = {'rho':'Density'}
-        self.label = {'beta':r'$\beta$'}
+        self.cmap = {'rho':'jet', 'beta':'Reds', "kappa":"Greys"}
+        self.xlabel = {'rho':'Density', }
+        self.label = {'beta':r'$\beta$', "kappa":r"$\kappa$"}
         self.ylabel = {'hop_rate':'Hop rate'}
 
     def set_params_def(self, params:dict):
@@ -50,21 +50,25 @@ class DrawFig:
                 value_tot[-1][key].append(value_set[key])
         return value_tot
             
-    def draw_value(self, xaxis, label, value_name):
+    def draw_value(self, xaxis, label, value_name, label_vals=[]):
         fig, ax = plt_func.create_subplots()
         value_tot = self.extract_value(value_name=value_name, xaxis=xaxis, label=label)
         cmap = plt.get_cmap(self.cmap[label])
+        if len(label_vals) > 0: label_num = len(label_vals)
+        else: label_num = len(value_tot)
         for i, value_arr in enumerate(value_tot):
-            ax.errorbar(value_arr['xaxis'], value_arr['mean'], yerr=value_arr['std'], marker='o', capthick=1, capsize=2, label=self.label[label]+f'={value_arr['label']}', color=cmap((i+1)/len(value_tot)))
+            if label_vals == [] or value_arr['label'] in label_vals:
+                ax.errorbar(value_arr['xaxis'], value_arr['mean'], yerr=value_arr['std'], marker='o', capthick=1, capsize=2, label=self.label[label]+f'={value_arr['label']}', color=cmap((i+1)/label_num))
         ax.legend()
         ax.set_xlabel(self.xlabel[xaxis])
         ax.set_ylabel(self.ylabel[value_name])
+        #ax.set_title(self.label["beta"]+f"={self.params_def["beta"]}")
         name = value_name + f'_vs_{xaxis}_{label}'
         self.save(fig=fig, name=name)
 
 if __name__ == '__main__':
-    file_name = 'test'
+    file_name = 'normal'
     func.create_directory(path='image/'+file_name)
     plt_func.plt_setting()
     df = DrawFig(file=file_name)
-    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate')
+    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate', label_vals=[0,20,50,100,200])

@@ -6,13 +6,15 @@ from datetime import datetime
 from params import *
 from simulator import *
 import func
+import analysis
 
 class TotalSimulator:
-    def __init__(self, system_params:SystemParams, params_range:dict, directory:str, num:int):
+    def __init__(self, system_params:SystemParams, params_range:dict, directory:str, num:int, options:list):
         self.system_params = system_params
         self.params_range = params_range
         self.directory = directory
         self.num = num
+        self.options = options
 
     def set_param_combinations_total(self):
         self.param_combinations = list(itertools.product(
@@ -21,7 +23,7 @@ class TotalSimulator:
             ))
         
     def run_under_(self, params:dict)->Simulator:
-        simulator = Simulator(params=params, system_params=self.system_params)
+        simulator = Simulator(params=params, system_params=self.system_params, options=self.options)
         simulator.run()
         return simulator
     
@@ -30,6 +32,7 @@ class TotalSimulator:
         for i, key in enumerate(self.params_range.keys()):
             params[key] = param_combinations[i]
         n = param_combinations[-1]
+        #params_ft = {k:float(v) for k, v in params.items()}
         simulator = self.run_under_(params=params)
         file_name = func.create_name(params=params)+f'_{n}'
         #file_name = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -44,24 +47,25 @@ class TotalSimulator:
                 t.update()
 
 if __name__=='__main__':
-    directory = 'test'
+    directory = 'normal'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
-        L=100,
-        t_max=100,
+        L=1200,
+        t_max=1000,
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([0,1/3,1/2]),
-        'rho':func.to_fracs([0,1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10,10/10]),
-        'f':func.to_fracs([0]),
-        'Ea':func.to_fracs([1])
+        'beta':func.to_fracs([0,20,50,100,200]),
+        'rho':func.to_fracs([i/24 for i in range(25)]),#func.to_fracs([0,1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10,10/10]),
+        "alpha":func.to_fracs([2]),
+        "K":func.to_fracs([1])
     }
     total_simulator = TotalSimulator(
         system_params=system_params,
         params_range=params_range,
         directory=directory,
-        num=5
+        num=1,
+        options=[]
     )
     total_simulator.run()
-    func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')
+    #func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')

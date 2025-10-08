@@ -9,7 +9,7 @@ def ax_setting(ax:matplotlib.axes.Axes):
     ax.tick_params(left=False, bottom=False, which='minor')
     ax.tick_params(labelleft=False, labelbottom=False, which='minor')
 
-def create_subplots(figsize:tuple=(6,4), size:tuple=(1,1), sharex:bool=True, sharey:bool=True):
+def create_subplots(figsize:tuple=(6,4), size:tuple=(1,1), sharex:bool=True, sharey:bool=True)->tuple[matplotlib.figure.Figure, matplotlib.axes.Axes]:
     fig, axs = plt.subplots(nrows=size[0], ncols=size[1], figsize=figsize, constrained_layout=True, sharex=sharex, sharey=sharey)
     if size == (1,1):
         axs:matplotlib.axes.Axes
