@@ -62,6 +62,8 @@ class Results:
         create_directory(path="data")
         save_pickle(object=self, directory_path='data', file_name=name)
 
+        
+
     def run(self, name=''):
         if name == '': name = self.directory + '.pkl'
         self.extract_data()
@@ -69,5 +71,5 @@ class Results:
             
 if __name__ == '__main__':
     #results_prev:Results = load_pickle(file_name='test.pkl', directory_path='data')
-    results = Results(directory='normal', t_discard=100)
+    results = Results(directory='fitting', t_discard=100)
     results.run()

@@ -48,6 +48,11 @@ def approx_fdiagram(qmax:int):
         rhos += rho.tolist(); hoprates += hoprate.tolist()
     return rhos, hoprates
 
+def approx_ssep(qmax:int, rho:Fraction):
+    rho1, rho2 = select_sub_pattern(rho=rho, qmax=qmax)
+    p, ld = calc_scale_factor(rho1=rho1, rho2=rho2, rho=rho)
+    return ld*p*(1-p)
+
 def select_sub_pattern(rho:Fraction, qmax:int)->tuple[Fraction,Fraction]:
     fs = farey_array(qmax=qmax)
     for i in range(0,len(fs)-1):

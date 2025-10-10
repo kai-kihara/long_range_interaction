@@ -47,17 +47,18 @@ class TotalSimulator:
                 t.update()
 
 if __name__=='__main__':
-    directory = 'normal'
+    directory = 'fitting'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
         L=1200,
-        t_max=1000,
+        t_max=10000,
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([0,20,50,100,200]),
-        'rho':func.to_fracs([i/24 for i in range(25)]),#func.to_fracs([0,1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10,10/10]),
+        'beta':func.to_fracs([52,54,56,58,60]+[190,195,200,205]),
+        'rho':analysis.farey_array(qmax=5),#func.to_fracs([0,1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10,10/10]),
         "alpha":func.to_fracs([2]),
+        #"kappa":func.to_fracs([1]),
         "K":func.to_fracs([1])
     }
     total_simulator = TotalSimulator(
