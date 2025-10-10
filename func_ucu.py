@@ -82,6 +82,3 @@ if __name__ == "__main__":
     # arr[np.random.choice(l, n, replace=False)] = True
     # print(scan_pattern(channel=arr, rho=Fraction(n,l)))
     # print(is_adjacent(Fraction(0,1), Fraction(1,1)))
-    simulator:Simulator = extract_simulator(params={'f':0, 'beta':30, 'N':480, 'q':1, 'pd':0}, directory_name='beam_tot')
-    print(scan_pattern(channel=simulator.values['channel'][2000], rho=Fraction(2,5)))
-    print(ucu_list(rho=Fraction(5,12)))
