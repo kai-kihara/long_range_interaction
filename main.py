@@ -55,7 +55,7 @@ if __name__=='__main__':
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([52,54,56,58,60]+[190,195,200,205]),
+        'beta':func.to_fracs([10*i for i in range(21)]),
         'rho':analysis.farey_array(qmax=5),#func.to_fracs([0,1/10,2/10,3/10,4/10,5/10,6/10,7/10,8/10,9/10,10/10]),
         "alpha":func.to_fracs([2]),
         #"kappa":func.to_fracs([1]),
@@ -66,7 +66,7 @@ if __name__=='__main__':
         params_range=params_range,
         directory=directory,
         num=1,
-        options=[]
+        options=["yukawa"]
     )
     total_simulator.run()
     #func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')
