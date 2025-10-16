@@ -70,6 +70,7 @@ class Results:
         self.save(name)
             
 if __name__ == '__main__':
-    #results_prev:Results = load_pickle(file_name='test.pkl', directory_path='data')
-    results = Results(directory='fitting', t_discard=100)
+    results_prev:Results = load_pickle(file_name='fitting.pkl', directory_path='data')
+    print(results_prev.data)
+    results = Results(directory='fit_add', t_discard=100, data_file=results_prev.data)
     results.run()
