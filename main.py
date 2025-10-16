@@ -103,18 +103,18 @@ class TotalSimulator:
 
 
 if __name__=='__main__':
-    directory = 'fitting_alpha'
+    directory = 'fitting_yukawa'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
         L=1200,
-        t_max=1000,
+        t_max=10000,
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([0,10,58,165]),
-        'rho': func.to_fracs([i/60 for i in range(61)]),#analysis.farey_array(qmax=5),
-        "alpha":func.to_fracs([2]),
-        #"kappa":func.to_fracs([1]),
+        'beta':func.to_fracs([25+i for i in range(11)]+[150+10*i for i in range(11)]+[650+10*i for i in range(11)]),
+        'rho': analysis.farey_array(qmax=5),#func.to_fracs([i/12 for i in range(13)]),
+        #"alpha":func.to_fracs([2]),
+        "kappa":func.to_fracs([1]),
         "K":func.to_fracs([1])
     }
     total_simulator = TotalSimulator(
@@ -122,8 +122,9 @@ if __name__=='__main__':
         params_range=params_range,
         directory=directory,
         num=1,
-        options=[]
+        options=["yukawa"]
     )
-    total_simulator.run()
-    #total_simulator.run_processes()
+    print(params_range["beta"])
+    #total_simulator.run()
+    total_simulator.run_processes()
     #func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')

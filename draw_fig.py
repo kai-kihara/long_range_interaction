@@ -65,15 +65,14 @@ class DrawFig:
         ax.set_yscale(yscale)
         ax.set_xlabel(self.xlabel[xaxis])
         ax.set_ylabel(self.ylabel[value_name])
-        ax.set_xlim(55,76)
         #ax.set_title(self.label["beta"]+f"={self.params_def["beta"]}")
         name = value_name + f'_vs_{xaxis}_{label}'
         self.save(fig=fig, name=name)
 
 if __name__ == '__main__':
-    file_name = 'fitting'
+    file_name = 'yukawa_plus'
     func.create_directory(path='image/'+file_name)
     plt_func.plt_setting()
     df = DrawFig(file=file_name)
-    df.params_def["rho"] = Fraction(1,3)
-    df.draw_value(xaxis='beta', label='rho', value_name='hop_rate', label_vals=[Fraction(1,3), Fraction(1,4), Fraction(2,5)])
+    #df.params_def["rho"] = Fraction(1,3)
+    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate')

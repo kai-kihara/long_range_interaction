@@ -6,8 +6,8 @@ from func import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-results:Results = load_pickle(file_name="fit_add.pkl", directory_path="data")
-betas = to_fracs([i for i in range(21)])
+results:Results = load_pickle(file_name="fitting_yukawa_plus.pkl", directory_path="data")
+betas = to_fracs([i*10 for i in range(21)])
 MSEs = []
 qmax = 2
 
@@ -25,6 +25,7 @@ for beta in betas:
     MSEs.append(MSE)
 
 plt.plot(betas, MSEs, marker="o")
+#plt.ylim(0,0.001)
 plt.savefig("tmp.png")
 
 
