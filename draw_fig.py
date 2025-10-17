@@ -50,7 +50,7 @@ class DrawFig:
                 value_tot[-1][key].append(value_set[key])
         return value_tot
             
-    def draw_value(self, xaxis, label, value_name, label_vals=[], yscale:str="linear"):
+    def draw_value(self, xaxis, label, value_name, label_vals=[], yscale:str="linear", approx:bool=False):
         fig, ax = plt_func.create_subplots()
         value_tot = self.extract_value(value_name=value_name, xaxis=xaxis, label=label)
         cmap = plt.get_cmap(self.cmap[label])
@@ -60,6 +60,9 @@ class DrawFig:
         for value_arr in value_tot:
             if label_vals == [] or value_arr['label'] in label_vals:
                 ax.errorbar(value_arr['xaxis'], value_arr['mean'], yerr=value_arr['std'], marker='o', capthick=1, capsize=2, label=self.label[label]+f'={value_arr['label']}', color=cmap(i/label_num))
+                if approx:
+                    rhos, Js = analysis.approx_fdiagram(qmax=i+1)
+                    ax.plot(rhos, Js, color=cmap(i/label_num), linestyle="dashed")
                 i+=1
         ax.legend()
         ax.set_yscale(yscale)

@@ -4,6 +4,7 @@ from tqdm import tqdm
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 import time
+import os
 
 from params import *
 from simulator import *
@@ -36,8 +37,9 @@ class TotalSimulator:
             params[key] = param_combinations[i]
         n = param_combinations[-1]
         #params_ft = {k:float(v) for k, v in params.items()}
-        simulator = self.run_under_(params=params)
         file_name = func.create_name(params=params)+f'_{n}'
+        if file_name + ".pkl" in os.listdir(f"data_raw/{self.directory}"): return
+        simulator = self.run_under_(params=params)
         #file_name = datetime.now().strftime("%Y%m%d_%H%M%S")
         func.save_pickle(object=simulator, directory_path='data_raw/'+self.directory, file_name=file_name+'.pkl')
         print(".",end="")
@@ -103,7 +105,7 @@ class TotalSimulator:
 
 
 if __name__=='__main__':
-    directory = 'fitting_yukawa'
+    directory = 'fitting_alpha'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
         L=1200,
@@ -111,10 +113,10 @@ if __name__=='__main__':
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([25+i for i in range(11)]+[150+10*i for i in range(11)]+[650+10*i for i in range(11)]),
-        'rho': analysis.farey_array(qmax=5),#func.to_fracs([i/12 for i in range(13)]),
-        #"alpha":func.to_fracs([2]),
-        "kappa":func.to_fracs([1]),
+        'beta':func.to_fracs([0,10,58,165]),
+        'rho': func.to_fracs([i/60 for i in range(61)]),
+        "alpha":func.to_fracs([2]),
+        #"kappa":func.to_fracs([1]),
         "K":func.to_fracs([1])
     }
     total_simulator = TotalSimulator(
@@ -122,9 +124,8 @@ if __name__=='__main__':
         params_range=params_range,
         directory=directory,
         num=1,
-        options=["yukawa"]
+        options=[]
     )
-    print(params_range["beta"])
-    #total_simulator.run()
-    total_simulator.run_processes()
+    total_simulator.run()
+    #total_simulator.run_processes()
     #func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')
