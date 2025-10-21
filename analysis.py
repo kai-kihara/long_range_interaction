@@ -27,11 +27,12 @@ def irreducible(m, n):
 def dE_limit(n):
     return 2 * zeta(3) / n**3
 
-def farey_array(qmax:int):
-    nodes = [Fraction(0,1),Fraction(1,1)]
+def farey_array(qmax:int, half:bool=False):
+    nodes = [Fraction(0,1)]
+    if not half: nodes.append(Fraction(1,1))
     for n in range(1,qmax+1):
         for m in range(1,n):
-            if irreducible(m,n):
+            if irreducible(m,n) and ((not half) or 2*m<=n):
                 nodes.append(Fraction(m,n))
     sorted_nodes = sorted(nodes)
     return sorted_nodes

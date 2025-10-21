@@ -61,10 +61,13 @@ class DrawFig:
             if label_vals == [] or value_arr['label'] in label_vals:
                 ax.errorbar(value_arr['xaxis'], value_arr['mean'], yerr=value_arr['std'], marker='o', capthick=1, capsize=2, label=self.label[label]+f'={value_arr['label']}', color=cmap(i/label_num))
                 if approx:
-                    rhos, Js = analysis.approx_fdiagram(qmax=i+1)
+                    rhos, Js = analysis.approx_fdiagram(qmax=i)
                     ax.plot(rhos, Js, color=cmap(i/label_num), linestyle="dashed")
                 i+=1
-        ax.legend()
+        for qmax in [1,2,3,4]:
+            rhos, Js = analysis.approx_fdiagram(qmax=qmax)
+            ax.plot(rhos, Js, color="black", zorder=3)
+        #ax.legend()
         ax.set_yscale(yscale)
         ax.set_xlabel(self.xlabel[xaxis])
         ax.set_ylabel(self.ylabel[value_name])
@@ -73,9 +76,9 @@ class DrawFig:
         self.save(fig=fig, name=name)
 
 if __name__ == '__main__':
-    file_name = 'yukawa_plus'
+    file_name = 'fit_add'
     func.create_directory(path='image/'+file_name)
     plt_func.plt_setting()
     df = DrawFig(file=file_name)
     #df.params_def["rho"] = Fraction(1,3)
-    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate')
+    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate',approx=False)
