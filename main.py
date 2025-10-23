@@ -105,7 +105,7 @@ class TotalSimulator:
 
 
 if __name__=='__main__':
-    directory = 'fitting_alpha05'
+    directory = 'fitting_alpha025'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
         L=1200,
@@ -113,9 +113,9 @@ if __name__=='__main__':
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([15+i for i in range(11)]+[50+i for i in range(11)]+[95+i for i in range(11)]),
+        'beta':func.to_fracs([32+i for i in range(11)]+[85+i for i in range(11)]+[145+i for i in range(11)]),
         'rho': analysis.farey_array(qmax=5, half=True),#func.to_fracs([i/60 for i in range(61)]),
-        "alpha":func.to_fracs([0.5]),
+        "alpha":func.to_fracs([0.25]),
         #"kappa":func.to_fracs([1]),
         "K":func.to_fracs([1])
     }
@@ -126,6 +126,7 @@ if __name__=='__main__':
         num=1,
         options=[]
     )
+    #print(params_range)
     #total_simulator.run()
     total_simulator.run_processes()
     #func.save_pickle(total_simulator, directory_path='data_raw/'+directory, file_name='total_simulator.pkl')

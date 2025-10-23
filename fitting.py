@@ -6,8 +6,8 @@ from func import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-results:Results = load_pickle(file_name="fitting_search_alpha05.pkl", directory_path="data")
-betas = to_fracs([10*i for i in range(4,9)])
+results:Results = load_pickle(file_name="fitting_search_alpha025.pkl", directory_path="data")
+betas = to_fracs([5*i for i in range(16,25)])
 MSEs = []
 qmax = 3
 

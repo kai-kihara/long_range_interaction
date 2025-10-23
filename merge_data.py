@@ -71,5 +71,5 @@ class Results:
             
 if __name__ == '__main__':
     #results_prev:Results = load_pickle(file_name='fitting_yukawa.pkl', directory_path='data')
-    results = Results(directory='fitting_alpha05', t_discard=1000)
+    results = Results(directory='fitting_search_alpha025', t_discard=1000)
     results.run()
