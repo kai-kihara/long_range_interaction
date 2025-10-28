@@ -41,14 +41,9 @@ class Simulator:
         channel_after_hop = deepcopy(self.channel)
         channel_after_hop[i] = False
         channel_after_hop[(i+d)%self.system_params.L] = True
-        if "yukawa" in self.options:
-            org_potential = self.potential_yukawa(r=self.particle_distances(channel=self.channel, j=i))
-            new_potential = self.potential_yukawa(r=self.particle_distances(channel=channel_after_hop, j=(i+d)%self.system_params.L))
-            dE = new_potential - org_potential
-        else:
-            org_potential = self.potential_normal(r=self.particle_distances(channel=self.channel, j=i))
-            new_potential = self.potential_normal(r=self.particle_distances(channel=channel_after_hop, j=(i+d)%self.system_params.L))
-            dE = new_potential - org_potential
+        org_potential = self.potential(r=self.particle_distances(channel=self.channel, j=i))
+        new_potential = self.potential(r=self.particle_distances(channel=channel_after_hop, j=(i+d)%self.system_params.L))
+        dE = new_potential - org_potential
         return dE
     
     def prob(self, dE:float):
@@ -57,12 +52,14 @@ class Simulator:
         else:
             if dE > 0: return np.exp(-self.params["beta"]*dE)
             else: return 1
-    
-    def potential_yukawa(self, r):
-        return float(self.params["K"])*sum(np.exp(-float(self.params["kappa"])*r)/r)
-    
-    def potential_normal(self, r):
-        return float(self.params["K"])*sum(1/r**float(self.params["alpha"]))
+
+    def potential(self, r):
+        if "yukawa" in self.options:
+            return float(self.params["K"])*sum(np.exp(-float(self.params["kappa"])*r)/r)
+        elif "spring" in self.options:
+            return float(self.params["K"])*sum(r**2)/self.system_params.L**2
+        else:
+            return float(self.params["K"])*sum(1/r**float(self.params["alpha"]))
     
     def particle_distances(self, channel:list, j:int):
         return np.array([dist for i, particle in enumerate(channel) if particle and i != j for dist in (abs(j - i), self.system_params.L - abs(j - i))])

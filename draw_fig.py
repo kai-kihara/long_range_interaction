@@ -64,10 +64,10 @@ class DrawFig:
                     rhos, Js = analysis.approx_fdiagram(qmax=i)
                     ax.plot(rhos, Js, color=cmap(i/label_num), linestyle="dashed")
                 i+=1
-        for qmax in [1,2,3,4]:
-            rhos, Js = analysis.approx_fdiagram(qmax=qmax)
-            ax.plot(rhos, Js, color="black", zorder=3)
-        #ax.legend()
+        # for qmax in [2,3,4]:
+        #     rhos, Js = analysis.approx_fdiagram(qmax=qmax)
+        #     ax.plot(rhos, Js, color="black", zorder=3)
+        ax.legend()
         ax.set_yscale(yscale)
         ax.set_xlabel(self.xlabel[xaxis])
         ax.set_ylabel(self.ylabel[value_name])
@@ -76,9 +76,9 @@ class DrawFig:
         self.save(fig=fig, name=name)
 
 if __name__ == '__main__':
-    file_name = 'fit_add'
+    file_name = 'spring_test'
     func.create_directory(path='image/'+file_name)
     plt_func.plt_setting()
     df = DrawFig(file=file_name)
     #df.params_def["rho"] = Fraction(1,3)
-    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate',approx=False)
+    df.draw_value(xaxis='rho', label='beta', value_name='hop_rate',approx=False, label_vals=[0,1000,2000,5000,10000])

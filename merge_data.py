@@ -33,6 +33,7 @@ class Results:
             file_pkl = load_pickle(file_name=file, directory_path=f'data_raw/{self.directory}')
             if type(file_pkl) == Simulator:
                 params = file_pkl.params
+                #if not params["rho"].denominator in [1,2,3,4,5,6,10,12,15,20,30,60]: continue
                 values = self.calc_mean(simulator=file_pkl, values=file_pkl.data_ps)
                 for simulation_data in self.data:
                     simulation_data:SimulationData
@@ -71,5 +72,5 @@ class Results:
             
 if __name__ == '__main__':
     #results_prev:Results = load_pickle(file_name='fitting_yukawa.pkl', directory_path='data')
-    results = Results(directory='fitting_search_alpha025', t_discard=1000)
+    results = Results(directory='yukawa', t_discard=1000)
     results.run()

@@ -6,8 +6,8 @@ from func import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-results:Results = load_pickle(file_name="fitting_search_alpha025.pkl", directory_path="data")
-betas = to_fracs([5*i for i in range(16,25)])
+results:Results = load_pickle(file_name="fitting_alpha05.pkl", directory_path="data")
+betas = to_fracs([i+50 for i in range(11)])
 MSEs = []
 qmax = 3
 
@@ -23,7 +23,6 @@ for beta in betas:
             #if beta == Fraction(60,1): print(sim_data.params["rho"], Jth, SE)
     MSE = np.mean(SEs)
     MSEs.append(MSE)
-
 plt.plot(betas, MSEs, marker="o")
 #plt.ylim(0,0.001)
 plt.savefig(f"qmax{qmax}.png")

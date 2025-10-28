@@ -105,7 +105,7 @@ class TotalSimulator:
 
 
 if __name__=='__main__':
-    directory = 'fitting_alpha025'
+    directory = 'yukawa'
     func.create_directory(path='data_raw/'+directory)
     system_params = SystemParams(
         L=1200,
@@ -113,10 +113,10 @@ if __name__=='__main__':
         dt=1
     )
     params_range = {
-        'beta':func.to_fracs([32+i for i in range(11)]+[85+i for i in range(11)]+[145+i for i in range(11)]),
-        'rho': analysis.farey_array(qmax=5, half=True),#func.to_fracs([i/60 for i in range(61)]),
-        "alpha":func.to_fracs([0.25]),
-        #"kappa":func.to_fracs([1]),
+        'beta':func.to_fracs([0,28,170,700]),
+        'rho': func.to_fracs([i/60 for i in range(61)]),
+        #"alpha":func.to_fracs([0.5]),
+        "kappa":func.to_fracs([1]),
         "K":func.to_fracs([1])
     }
     total_simulator = TotalSimulator(
@@ -124,7 +124,7 @@ if __name__=='__main__':
         params_range=params_range,
         directory=directory,
         num=1,
-        options=[]
+        options=["yukawa"]
     )
     #print(params_range)
     #total_simulator.run()
