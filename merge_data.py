@@ -63,8 +63,6 @@ class Results:
         create_directory(path="data")
         save_pickle(object=self, directory_path='data', file_name=name)
 
-        
-
     def run(self, name=''):
         if name == '': name = self.directory + '.pkl'
         self.extract_data()
